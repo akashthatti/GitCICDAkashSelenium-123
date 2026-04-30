@@ -1,0 +1,32 @@
+name: Selenium Cucumber CI
+
+on:
+    push:
+        branches: ["master"]
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: 1. Get code
+            uses: actions/checkout@v4
+
+          - name: 2. install java
+            uses: actions/setup-java@v4
+            with:
+                distribution: 'termurin'
+                java-version: '17'
+          - name: 3. Cache dependencies
+            uses: actions/cache@v4
+            with:
+                path: -/.m2
+                key: ${{runner.os}}-maven-${{hashFiles('selenium/pom.xml')}}
+
+          - name: 4. build
+            run: mvn test
+            working-directory: selenium
+
+
+
+
+                
