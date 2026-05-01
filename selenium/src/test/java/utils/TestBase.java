@@ -22,8 +22,10 @@ public class TestBase {
 		String browser = prop.getProperty("browser");
 		if(browser.equalsIgnoreCase("chrome")) {
 			if(driver==null) {
+			ChromeOptions o = new ChromeOptions();
+			o.addArguments("--headless");
 			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
+			driver = new ChromeDriver(o);
 			driver.get(url);
 			try {
 				Thread.sleep(15000);
