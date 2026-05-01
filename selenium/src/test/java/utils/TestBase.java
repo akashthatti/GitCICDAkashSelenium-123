@@ -16,7 +16,7 @@ public class TestBase {
 	
 	public WebDriver getDriver() throws IOException {
 		Properties prop = new Properties();
-		FileInputStream fis = new FileInputStream(new File("/home/testubuntu/eclipse-workspace/selenium/src/test/resources/global.properties"));
+		FileInputStream fis = new FileInputStream(new File("/src/test/resources/global.properties"));
 		prop.load(fis);
 		String url = prop.getProperty("url");
 		String browser = prop.getProperty("browser");
