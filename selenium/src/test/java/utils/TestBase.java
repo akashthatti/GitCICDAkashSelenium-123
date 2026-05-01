@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.http.WebSocketHandshakeException;
 import java.util.Properties;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
