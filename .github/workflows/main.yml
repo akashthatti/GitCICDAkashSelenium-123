@@ -1,36 +1,53 @@
 name: Selenium Cucumber
 
 on:
-    push:
-        branches: ["master"]
+  push:
+    branches: ["master"]
+
 jobs:
-    test:
-        runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
 
-        steps:
-          - name: 1. Get code
-            uses: actions/checkout@v4
+    steps:
+      # 1. Checkout code
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-          - name: 2. install java
-            uses: actions/setup-java@v4
-            with:
-                distribution: 'temurin'
-                java-version: '17'
-          - name: 3. Cache dependencies
-            uses: actions/cache@v4
-            with:
-                path: -/.m2
-                key: ${{runner.os}}-maven-${{hashFiles('selenium/pom.xml')}}
+      # 2. Setup Java
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'   # ✅ fixes your cache issue
 
-          - name: 4. build
-            run: mvn clean install -DskipTests
-            working-directory: selenium
+      # 3. Build
+      - name: Build Project
+        run: mvn clean install -DskipTests
+        working-directory: selenium
 
-          - name: 5. run test
-            run: mvn test
-            working-directory: selenium
+      # 4. Run Tests
+      - name: Run Tests
+        run: mvn test
+        working-directory: selenium
 
-
-
-
-                
+      # 5. Send Email (ALWAYS runs)
+      - name: Send Email Notification
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Test Result - ${{ job.status }}
+          to: yourmail@gmail.com
+          from: yourmail@gmail.com
+          body: |
+            Selenium Cucumber Execution Finished
+            
+            Status: ${{ job.status }}
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            
+            Check GitHub Actions for full logs.
