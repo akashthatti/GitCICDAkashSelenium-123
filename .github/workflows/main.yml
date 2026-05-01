@@ -1,4 +1,4 @@
-name: Selenium Cucumbe
+name: Selenium Cucumber
 
 on:
   push:
