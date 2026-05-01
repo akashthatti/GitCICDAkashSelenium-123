@@ -1,4 +1,4 @@
-name: Selenium Cucumber
+name: Selenium Cucumber CI
 
 on:
   push:
